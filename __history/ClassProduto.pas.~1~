@@ -1,0 +1,30 @@
+unit ClassProduto;
+
+interface
+
+uses
+SysUtils;
+
+type
+  Produto = class
+
+  private
+    VCodigo: integer;
+    VNome: string;
+    VValor: double;
+
+  public
+
+  property Codigo: integer read VCodigo write VCodigo;
+  property Nome: string read VNome write VNome;
+  property Valor: double read VValor write VValor;
+  function Visualizar: string;
+
+  end;
+implementation
+
+  function Produto.Visualizar(): string;
+  begin
+    Result := Format('Produto: %s, Código: %i, Valor: R$%d', [VNome, VCodigo, VValor]);
+  end;
+end.

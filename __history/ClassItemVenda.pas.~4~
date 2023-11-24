@@ -1,0 +1,37 @@
+unit ClassItemVenda;
+
+interface
+
+uses
+  SysUtils, ClassProduto, ClassTotalizavel;
+
+type
+  ItemVenda = class(Totalizavel)
+
+  private
+    VProduto: Produto;
+    VValor: double;
+    VQuantidade: integer;
+
+  public
+    constructor Create(AProduto: Produto; AQuantidade: integer);
+    property Produto: Produto read VProduto write VProduto;
+    property Valor: double read VValor write VValor;
+    property Quantidade: integer read VQuantidade write VQuantidade;
+    function Total: double; override;
+
+  end;
+implementation
+
+  constructor ItemVenda.Create(AProduto: Produto; AQuantidade: Integer);
+  begin
+    VProduto := AProduto;
+    VQuantidade := AQuantidade;
+    VValor:= AProduto.Valor;
+  end;
+
+  function ItemVenda.Total(): Double;
+  begin
+    Result := VValor * VQuantidade;
+  end;
+end.

@@ -1,0 +1,19 @@
+unit ClassCliente;
+
+interface
+
+uses
+  SysUtils, ClassPessoa;
+type
+  Cliente = class(Pessoa)
+
+  private
+    VRG: string;
+    VDataNascimento: TDate;
+  public
+    property RG: string read VRG write VRG;
+    property DataNascimento: TDate read VDataNascimento write VDataNascimento;
+  end;
+implementation
+
+end.

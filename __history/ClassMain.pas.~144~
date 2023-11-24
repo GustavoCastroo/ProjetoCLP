@@ -1,0 +1,550 @@
+unit ClassMain;
+
+interface
+uses
+  SysUtils, System.Generics.Collections, ClassCliente, ClassProduto, ClassVenda, ClassItemVenda;
+type
+  TMain = class
+
+  private
+    FClientes: TObjectList<TCliente>;
+    FProdutos: TObjectList<TProduto>;
+    FVendas: TObjectList<TVenda>;
+
+  public
+    constructor Create;
+    procedure AdicionarCliente;
+    procedure AdicionarProduto;
+    procedure AdicionarVenda;
+    procedure AdicionarItemVenda(venda: TVenda);
+    procedure AlterarCliente;
+    procedure AlterarProduto;
+    procedure RemoverCliente;
+    procedure RemoverProduto;
+    procedure RemoverVenda;
+    procedure RemoverItemVenda(venda: TVenda);
+    procedure VisualizarClientes;
+    procedure VisualizarProdutos;
+    procedure VisualizarVendas;
+    function PesquisaCliente(rg: string): TCliente;
+    function PesquisaProduto(codigo: integer): TProduto;
+    function PesquisaVenda(numero: integer): TVenda;
+
+  end;
+implementation
+
+  constructor TMain.Create;
+  begin
+    inherited Create;
+    FClientes := TObjectList<TCliente>.Create;
+    FProdutos := TObjectList<TProduto>.Create;
+    FVendas := TObjectList<TVenda>.Create;
+  end;
+
+  procedure TMain.AdicionarCliente;
+  var
+    cliente: TCliente;
+    nome: string;
+    rg: string;
+    endereco: string;
+    data_nascimento: string;
+  begin
+
+
+    writeln('Digite o RG do Cliente: ');
+    readln(rg);
+
+    cliente := PesquisaCliente(rg);
+
+    if cliente <> nil then
+    begin
+      writeln('Esse RG já está cadastrado!');
+      Exit();
+    end;
+
+    writeln('Digite o nome do Cliente: ');
+    readln(nome);
+
+    writeln('Digite o Endereço do Cliente: ');
+    readln(endereco);
+
+    writeln('Digite a Data de Nascimento do Cliente: (dd/mm/aaaa)');
+    readln(data_nascimento);
+
+    cliente:= TCliente.Create;
+
+    cliente.Nome := nome;
+    cliente.RG := rg;
+    cliente.Endereco := endereco;
+    cliente.DataNascimento := StrToDateTime(data_nascimento);
+
+    FClientes.add(cliente);
+  end;
+
+  procedure TMain.AdicionarProduto;
+  var
+    produto: TProduto;
+    nome: string;
+    codigo: integer;
+    valor: double;
+
+  begin
+    writeln('Digite o Código numérico do Produto: ');
+    readln(codigo);
+
+    produto := PesquisaProduto(codigo);
+
+    if produto <> nil then
+    begin
+      writeln('Esse Código já está cadastrado!');
+      Exit();
+    end;
+
+    writeln('Digite o Nome do Produto: ');
+    readln(nome);
+
+    writeln('Digite o valor do Produto: (Use . ao invés de ,)');
+    readln(valor);
+
+    produto := TProduto.Create;
+
+    produto.Codigo := codigo;
+    produto.Nome := nome;
+    produto.Valor := valor;
+
+    FProdutos.add(produto);
+  end;
+
+  procedure TMain.AdicionarVenda;
+  var
+    venda: TVenda;
+    cliente: TCliente;
+    numero: integer;
+    data: string;
+    rg: string;
+  begin
+
+    if (FProdutos.Count <> 0) and (FClientes.Count <> 0) then
+    begin
+      writeln('Digite o RG do Cliente comprador:');
+      readln(rg);
+
+      cliente := PesquisaCliente(rg);
+
+      if cliente = nil then
+      begin
+        Exit;
+      end;
+
+      writeln('Digite o número da Venda:');
+      readln(numero);
+
+      venda := PesquisaVenda(numero);
+
+      if venda <> nil then
+      begin
+        writeln('Esse Número já está cadastrado!');
+        Exit();
+      end;
+
+      writeln('Digite a data da Venda: (dd/mm/aaaa)');
+      readln(data);
+
+      venda := TVenda.Create(numero, StrToDateTime(data), cliente);
+
+      AdicionarItemVenda(venda);
+      FVendas.Add(venda);
+    end
+    else
+    begin
+      if FProdutos.Count = 0 then
+      begin
+        writeln('Não há Produtos cadastrados!')
+      end;
+
+      if FClientes.Count = 0 then
+      begin
+        writeln('Não há Clientes cadastrados!')
+      end;
+    end;
+
+  end;
+
+  procedure TMain.AdicionarItemVenda(venda: TVenda);
+  var
+    item_venda: TItemVenda;
+    produto: TProduto;
+    ver_lista_produto: integer;
+    mais_produto: integer;
+    codigo: integer;
+    quantidade: integer;
+  begin
+    repeat
+        writeln('Deseja visualizar a lista de Produtos?');
+        writeln('1. Sim');
+        writeln('2. Não');
+        readln(ver_lista_produto);
+    until (ver_lista_produto = 1) or (ver_lista_produto = 2);
+
+    if ver_lista_produto = 1 then
+    begin
+      VisualizarProdutos;
+    end;
+
+    repeat
+      writeln('Deseja adicionar mais algum produto?');
+      writeln('1. Sim');
+      writeln('2. Não');
+      readln(mais_produto);
+
+      if mais_produto = 1 then
+      begin
+        repeat
+          writeln('Digite o codigo do Produto que você deseja comprar: ');
+          readln(codigo);
+
+          produto := PesquisaProduto(codigo);
+        until(produto <> nil);
+
+        writeln('Digite a quantidade de unidades desse produto:');
+        readln(quantidade);
+
+        item_venda := TItemVenda.Create(produto, quantidade);
+        venda.AdicionarItem(item_venda);
+      end;
+
+      if (mais_produto = 2) and (venda.Itens.Count = 0) then
+      begin
+        writeln('A Venda precisa ter pelo menos 1 item!');
+      end;
+
+    until ((venda.Itens.Count > 0) and (mais_produto = 2));
+  end;
+
+  procedure TMain.AlterarCliente;
+  var
+    cliente: TCliente;
+    cliente_pesquisa: TCliente;
+    rg: string;
+    nome: string;
+    data_nascimento: string;
+    endereco: string;
+    flag: integer;
+  begin
+    writeln('Digite o RG do Cliente que você deseja realizar a alteração: ');
+    readln(rg);
+
+    cliente := PesquisaCliente(rg);
+
+    if cliente = nil then
+    begin
+      Exit;
+    end;
+
+    nome := cliente.Nome;
+    rg := cliente.RG;
+    data_nascimento := DateTimeToStr(cliente.DataNascimento);
+    endereco := cliente.Endereco;
+
+    repeat
+      writeln('Deseja alterar o Nome do Cliente? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite o novo Nome do Cliente: ');
+        readln(nome);
+      end;
+    until (flag = 1) or (flag = 2);
+
+    repeat
+      writeln('Deseja alterar o RG do Cliente? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite o novo RG do Cliente: ');
+        readln(rg);
+
+        cliente_pesquisa := PesquisaCliente(rg);
+
+        if cliente_pesquisa <> nil then
+        begin
+          writeln('Esse RG já está cadastrado no sistema!');
+          Exit;
+        end;
+      end;
+    until (flag = 1) or (flag = 2);
+
+    repeat
+      writeln('Deseja alterar o Endereço do Cliente? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite o novo Endereço do Cliente: ');
+        readln(endereco);
+      end;
+    until (flag = 1) or (flag = 2);
+
+    repeat
+      writeln('Deseja alterar a Data de Nascimento do Cliente? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite a nova Data de Nascimento do Cliente: ');
+        readln(data_nascimento);
+      end;
+    until (flag = 1) or (flag = 2);
+
+    cliente.Nome := nome;
+    cliente.RG := rg;
+    cliente.Endereco := endereco;
+    cliente.DataNascimento := StrToDateTime(data_nascimento);
+
+    writeln('A alteração foi realizada com Sucesso!');
+  end;
+
+  procedure TMain.AlterarProduto;
+  var
+    produto: TProduto;
+    produto_pesquisa: TProduto;
+    codigo: integer;
+    nome: string;
+    valor: double;
+    flag: integer;
+  begin
+    writeln('Digite o codigo do Produto que você deseja realizar a alteração: ');
+    readln(codigo);
+
+    produto := PesquisaProduto(codigo);
+
+    if produto = nil then
+    begin
+      Exit;
+    end;
+
+    codigo := produto.Codigo;
+    nome := produto.Nome;
+    valor := produto.Valor;
+
+    repeat
+      writeln('Deseja alterar o Código do Produto? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite o novo Código do Produto: ');
+        readln(codigo);
+
+        produto_pesquisa := PesquisaProduto(codigo);
+
+        if produto_pesquisa <> nil then
+        begin
+          writeln('Esse Código já está cadastrado no sistema!');
+          Exit;
+        end;
+      end;
+    until (flag = 1) or (flag = 2);
+
+    repeat
+      writeln('Deseja alterar o Nome do Produto? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite o novo Nome do Produto: ');
+        readln(nome);
+      end;
+    until (flag = 1) or (flag = 2);
+
+    repeat
+      writeln('Deseja alterar o Valor do Produto? 1- Sim 2- Não');
+      readln(flag);
+
+      if flag = 1 then
+      begin
+        writeln('Digite o novo Valor do Produto: (Use . ao invés de ,)');
+        readln(nome);
+      end;
+    until (flag = 1) or (flag = 2);
+
+    produto.Codigo := codigo;
+    produto.Nome := nome;
+    produto.Valor := valor;
+    writeln('A alteração foi realizada com Sucesso!');
+  end;
+
+  procedure TMain.RemoverCliente;
+  var
+    cliente: Tcliente;
+    rg: string;
+  begin
+    writeln('Digite o RG do Cliente que você deseja excluir: ');
+    readln(rg);
+
+    cliente := PesquisaCliente(rg);
+
+    if cliente = nil then
+    begin
+      Exit();
+    end;
+
+    FClientes.Remove(cliente);
+  end;
+
+  procedure TMain.RemoverProduto;
+  var
+    produto: TProduto;
+    codigo: integer;
+  begin
+    writeln('Digite o codigo do Produto que você deseja excluir: ');
+    readln(codigo);
+
+    produto := PesquisaProduto(codigo);
+
+    if produto = nil then
+    begin
+      Exit;
+    end;
+
+    FProdutos.Remove(produto);
+  end;
+
+  procedure TMain.RemoverVenda;
+  var
+    venda: TVenda;
+    numero: integer;
+  begin
+    writeln('Digite o número da Venda que você deseja excluir: ');
+    readln(numero);
+
+    venda := PesquisaVenda(numero);
+
+    if venda = nil then
+    begin
+      Exit;
+    end;
+
+    RemoverItemVenda(venda);
+    FVendas.Remove(venda);
+  end;
+
+  procedure TMain.RemoverItemVenda(venda: TVenda);
+  var
+    item_venda: TItemVenda;
+  begin
+    for item_venda in venda.Itens do
+    begin
+      venda.Itens.Remove(item_venda);
+    end;
+  end;
+
+  procedure TMain.VisualizarClientes;
+  var
+    cliente: TCliente;
+  begin
+    if FClientes.Count <> 0 then
+    begin
+      for cliente in FClientes do
+      begin
+        writeln(cliente.Visualizar);
+      end;
+    end
+    else
+    begin
+      writeln('Não há Clientes cadastrados no Sistema!');
+    end;
+
+
+  end;
+
+  procedure TMain.VisualizarProdutos;
+  var
+    produto: TProduto;
+  begin
+    if FProdutos.Count <> 0 then
+    begin
+      for produto in FProdutos do
+      begin
+        writeln(produto.Visualizar);
+      end;
+    end
+    else
+    begin
+      writeln('Não há Produtos cadastrados no sistema!');
+    end;
+
+  end;
+
+  procedure TMain.VisualizarVendas;
+  var
+    venda: TVenda;
+  begin
+    if FVendas.Count <> 0 then
+    begin
+      for venda in FVendas do
+      begin
+        writeln(venda.Visualizar);
+      end;
+    end
+    else
+    begin
+      writeln('Não há Vendas cadastradas no sistema!');
+    end;
+
+  end;
+
+  function TMain.PesquisaCliente(rg: string): TCliente;
+  var
+    cliente: TCliente;
+  begin
+    for cliente in FClientes do
+    begin
+      if cliente.RG = rg then
+      begin
+        Result := cliente;
+        Exit();
+      end;
+    end;
+
+    writeln('Não foi encontrado no sistema um Cliente com esse RG!');
+    Result := nil;
+  end;
+
+  function TMain.PesquisaProduto(codigo: integer): TProduto;
+   var
+    produto: TProduto;
+  begin
+    for produto in FProdutos do
+    begin
+      if produto.Codigo = codigo then
+      begin
+        Result := produto;
+        Exit;
+      end;
+    end;
+
+    writeln('Não foi encontrado no sistema um Produto com esse código!');
+    Result := nil;
+  end;
+
+  function TMain.PesquisaVenda(numero: Integer): TVenda;
+  var
+    venda: TVenda;
+  begin
+    for venda in FVendas do
+    begin
+      if venda.Numero = numero then
+      begin
+        Result := venda;
+        Exit;
+      end;
+    end;
+
+    writeln('Não foi encontrado no sistema uma Venda com esse número!');
+    Result := nil;
+  end;
+
+end.

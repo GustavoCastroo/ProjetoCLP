@@ -1,0 +1,8 @@
+unit Pessoa;
+
+interface
+type
+  pessoa = class;
+implementation
+
+end.

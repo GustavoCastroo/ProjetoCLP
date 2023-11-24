@@ -1,0 +1,17 @@
+unit ClassPessoa;
+
+interface
+type
+
+  Pessoa = class abstract
+  private
+    var
+    nome : String;
+    endereco : String;
+
+  public
+    property nome : string read nome write nome;
+  end;
+implementation
+
+end.

@@ -1,0 +1,27 @@
+unit ClassCliente;
+
+interface
+
+uses
+  SysUtils, ClassPessoa;
+
+type
+  TCliente = class(TPessoa)
+
+  private
+    FRG: string;
+    FDataNascimento: TDate;
+
+  public
+    property RG: string read FRG write FRG;
+    property DataNascimento: TDate read FDataNascimento write FDataNascimento;
+    function Visualizar: string; override;
+
+  end;
+implementation
+
+  function TCliente.Visualizar: string;
+  begin
+    Result := Format('Cliente: %s, RG: %s, Data de Nascimento: %s, Endereço: %s', [Nome, FRG, FDataNascimento, Endereco]); // Result é uma variável especial usada para armazenar o valor de retorno da função.
+  end;
+end.

@@ -1,0 +1,43 @@
+unit ClassItemVenda;
+
+interface
+
+uses
+  SysUtils, ClassProduto, ClassTotalizavel;
+
+type
+  TItemVenda = class(TTotalizavel)
+
+  private
+    FProduto: TProduto;
+    VValor: double;
+    VQuantidade: integer;
+
+  public
+    constructor Create(AProduto: TProduto; AQuantidade: integer);
+    property Produto: TProduto read FProduto write FProduto;
+    property Valor: double read VValor write VValor;
+    property Quantidade: integer read VQuantidade write VQuantidade;
+    function Total: double; override;
+    function Visualizar: string;
+
+  end;
+implementation
+
+  constructor TItemVenda.Create(AProduto: TProduto; AQuantidade: Integer);
+  begin
+    FProduto := AProduto;
+    VQuantidade := AQuantidade;
+    VValor:= AProduto.Valor;
+  end;
+
+  function TItemVenda.Total(): Double;
+  begin
+    Result := VValor * VQuantidade;
+  end;
+
+  function TItemVenda.Visualizar(): string;
+  begin
+    Result := Format('Produto da venda: %s, Valor do Produto: R$%d , Quantidade: %i', [FProduto.Nome, VValor, VQuantidade]);
+  end;
+end.

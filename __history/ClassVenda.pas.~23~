@@ -1,0 +1,71 @@
+unit ClassVenda;
+
+interface
+
+uses
+  SysUtils, System.Generics.Collections, ClassTotalizavel, ClassCliente, ClassItemVenda;
+
+type
+  TVenda = class(TTotalizavel)
+
+  private
+    FNumero: integer;
+    FData: TDate;
+    FCliente: TCliente;
+    VItens: TObjectList<TItemVenda>;
+
+  public
+    constructor Create(ANumero: Integer; AData: TDate; ACliente: TCliente);
+    property Numero: integer read FNumero write FNumero;
+    property Data: TDate read FData write FData;
+    property Cliente: TCliente read FCliente write FCliente;
+    property Itens: TObjectList<TItemVenda> read VItens write VItens;
+    function Total: double; override;
+    procedure AdicionarItem(AItem: TItemVenda);
+    function Visualizar: string;
+
+  end;
+
+implementation
+
+  constructor TVenda.Create(ANumero: Integer; AData: TDate; ACliente: TCliente);
+  begin
+    FNumero := ANumero;
+    FData := AData;
+    FCliente := ACliente;
+    VItens := TObjectList<TItemVenda>.Create;
+  end;
+
+  function TVenda.Total: double;
+  var
+    item : TItemVenda;
+    soma: double;
+  begin
+    soma := 0.0;
+    for item in VItens do
+    begin
+      soma := soma + item.Total;
+    end;
+
+    Result := soma;
+  end;
+
+  procedure TVenda.AdicionarItem(AItem: TItemVenda);
+  begin
+    VItens.Add(AItem);
+  end;
+
+  function TVenda.Visualizar(): string;
+  var
+    str: String;
+    item: TItemVenda;
+  begin
+    str := Format('Número da venda: i, Data: %s , Cliente: %s, Itens: ', [FNumero, DateToStr(FData), FCliente.Nome]);
+    for item in VItens do
+    begin
+      str := str + item.Visualizar() + '\n';
+    end;
+
+    Result := str;
+  end;
+end.

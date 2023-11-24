@@ -1,0 +1,30 @@
+unit ClassProduto;
+
+interface
+
+uses
+SysUtils;
+
+type
+  TProduto = class
+
+  private
+    FCodigo: integer;
+    FNome: string;
+    FValor: double;
+
+  public
+
+  property Codigo: integer read FCodigo write FCodigo;
+  property Nome: string read FNome write FNome;
+  property Valor: double read FValor write FValor;
+  function Visualizar: string;
+
+  end;
+implementation
+
+  function TProduto.Visualizar(): string;
+  begin
+    Result := Format('Produto: %s, Código: %i, Valor: R$%d', [FNome, FCodigo, FValor]);
+  end;
+end.

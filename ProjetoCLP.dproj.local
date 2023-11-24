@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/11/15 10:50:41.000.802,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ProjetoCLP.dproj</Transaction>
+    <Transaction>2023/11/15 10:50:56.000.463,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 10:51:09.000.111,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Pessoa.pas</Transaction>
+    <Transaction>2023/11/15 10:55:46.000.663,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Pessoa.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassPessoa.pas</Transaction>
+    <Transaction>2023/11/15 11:13:16.000.931,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 11:13:25.000.759,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassCliente.pas</Transaction>
+    <Transaction>2023/11/15 11:32:56.000.917,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 11:33:07.000.433,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassProduto.pas</Transaction>
+    <Transaction>2023/11/15 11:43:35.000.797,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 11:43:49.000.338,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassTotalizavel.pas</Transaction>
+    <Transaction>2023/11/15 11:47:33.000.140,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 11:48:04.000.257,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassVenda.pas</Transaction>
+    <Transaction>2023/11/15 11:56:35.000.005,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 11:56:44.000.322,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassItemVenda.pas</Transaction>
+    <Transaction>2023/11/15 15:17:07.000.565,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 15:19:08.000.871,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Main.pas</Transaction>
+    <Transaction>2023/11/15 15:24:56.000.226,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 15:25:06.000.184,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassMenu.pas</Transaction>
+    <Transaction>2023/11/15 16:49:30.000.188,=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas</Transaction>
+    <Transaction>2023/11/15 16:49:38.000.897,C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\Unit1.pas=C:\Users\gusta\Documents\Embarcadero\Studio\Projects\ProjetoCLP\ClassMain.pas</Transaction>
+  </Transactions>
+</BorlandProject>

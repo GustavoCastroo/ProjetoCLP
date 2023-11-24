@@ -1,0 +1,116 @@
+program ProjetoCLP;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils,
+  ClassPessoa in 'ClassPessoa.pas',
+  ClassCliente in 'ClassCliente.pas',
+  ClassProduto in 'ClassProduto.pas',
+  ClassTotalizavel in 'ClassTotalizavel.pas',
+  ClassVenda in 'ClassVenda.pas',
+  ClassItemVenda in 'ClassItemVenda.pas',
+  ClassMenu in 'ClassMenu.pas',
+  ClassMain in 'ClassMain.pas';
+
+var
+  option: integer;
+  option2: integer;
+  main: TMain;
+begin
+  try
+    repeat
+    main := TMain.Create;
+      option := Menu.ShowMainMenu();
+
+      if option <> 0 then
+      begin
+
+        repeat
+          option2 := Menu.ShowMenu(option);
+
+          if option2 <> 0 then
+          begin
+
+            if option = 1 then  // Adicionar
+            begin
+
+              if option2 = 1 then // Cliente
+              begin
+                main.AdicionarCliente;
+              end;
+
+              if option2 = 2 then // Produto
+              begin
+                main.AdicionarProduto;
+              end;
+
+              if option2 = 3 then // Venda
+              begin
+                main.AdicionarVenda;
+              end;
+            end;
+
+            if option = 2 then  // Alterar
+            begin
+
+              if option2 = 1 then // Cliente
+              begin
+                main.AlterarCliente;
+              end;
+
+              if option2 = 2 then // Produto
+              begin
+                main.AlterarProduto;
+              end;
+            end;
+
+            if option = 3 then  // Remover
+            begin
+
+              if option2 = 1 then // Cliente
+              begin
+                main.RemoverCliente;
+              end;
+
+              if option2 = 2 then // Produto
+              begin
+                main.RemoverProduto;
+              end;
+
+              if option2 = 3 then // Venda
+              begin
+                main.RemoverVenda;
+              end;
+            end;
+
+            if option = 4 then  // Visualizar
+            begin
+
+              if option2 = 1 then // Cliente
+              begin
+                main.VisualizarClientes;
+              end;
+
+              if option2 = 2 then // Produto
+              begin
+                main.VisualizarProdutos
+              end;
+
+              if option2 = 3 then // Venda
+              begin
+                main.VisualizarVendas;
+              end;
+            end;
+          end;
+        until option2 = 0;
+      end;
+
+    until option = 0;
+  except
+    on E: Exception do
+      Writeln('Erro: ', E.Message);
+  end;
+end.

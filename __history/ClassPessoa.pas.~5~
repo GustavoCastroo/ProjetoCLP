@@ -1,0 +1,17 @@
+unit ClassPessoa;
+
+interface
+type
+
+  Pessoa = class abstract
+  private
+    var
+    VNome : String;
+    VEndereco : String;
+
+  public
+    property Nome : string read VNome write VNome; //Método de acesso para as outras classes
+  end;
+implementation
+
+end.

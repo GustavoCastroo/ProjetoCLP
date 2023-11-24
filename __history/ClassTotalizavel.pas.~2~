@@ -1,0 +1,16 @@
+unit ClassTotalizavel;
+
+interface
+
+type
+  Totalizavel = class abstract
+
+  private
+
+  public
+    function Total: double;virtual; abstract;
+  end;
+
+implementation
+
+end.
