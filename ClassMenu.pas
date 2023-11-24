@@ -83,9 +83,9 @@ implementation
     begin
       repeat
         writeln('Digite a opção desejada:');
-        writeln('1. Visualizar Cliente');
-        writeln('2. Visualizar Produto');
-        writeln('3. Visualizar Venda');
+        writeln('1. Visualizar Clientes');
+        writeln('2. Visualizar Produtos');
+        writeln('3. Visualizar Vendas');
         writeln('0. Sair');
         readln(opt2); 
       until (opt2 = 0) or (opt2 = 1) or (opt2 = 2) or (opt2 = 3);

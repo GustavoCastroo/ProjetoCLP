@@ -44,15 +44,21 @@ implementation
   procedure TMain.AdicionarCliente;
   var
     cliente: TCliente;
+    padrao_data: TDateTime;
     nome: string;
     rg: string;
     endereco: string;
     data_nascimento: string;
   begin
+    repeat
+      writeln('Digite o RG do Cliente: ');
+      readln(rg);
 
-
-    writeln('Digite o RG do Cliente: ');
-    readln(rg);
+      if rg = '' then
+      begin
+        writeln('O RG não pode ser vazio!');
+      end;
+    until rg <> '';
 
     cliente := PesquisaCliente(rg);
 
@@ -73,26 +79,40 @@ implementation
 
     cliente:= TCliente.Create;
 
-    cliente.Nome := nome;
     cliente.RG := rg;
+    cliente.Nome := nome;
     cliente.Endereco := endereco;
-    cliente.DataNascimento := StrToDateTime(data_nascimento);
+
+    if TryStrToDateTime(data_nascimento, padrao_data) then
+    begin
+      cliente.DataNascimento := StrToDateTime(data_nascimento);
+    end;
 
     FClientes.add(cliente);
+    writeln('Cliente adicionado com sucesso!');
   end;
 
   procedure TMain.AdicionarProduto;
   var
     produto: TProduto;
+    padrao_int: integer;
+    padrao_double: double;
     nome: string;
-    codigo: integer;
-    valor: double;
+    codigo: string;
+    valor: string;
 
   begin
-    writeln('Digite o Código numérico do Produto: ');
-    readln(codigo);
+    repeat
+      writeln('Digite o Código numérico do Produto: ');
+      readln(codigo);
 
-    produto := PesquisaProduto(codigo);
+      if not TryStrToInt(codigo, padrao_int) then
+      begin
+        writeln('Esse Código não é um número inteiro!');
+      end;
+    until TryStrToInt(codigo, padrao_int);
+
+    produto := PesquisaProduto(StrToInt(codigo));
 
     if produto <> nil then
     begin
@@ -103,23 +123,34 @@ implementation
     writeln('Digite o Nome do Produto: ');
     readln(nome);
 
-    writeln('Digite o valor do Produto: (Use . ao invés de ,)');
-    readln(valor);
+    repeat
+      writeln('Digite o valor do Produto: (Use . ao invés de ,)');
+      readln(valor);
+
+      if not TryStrToFloat(valor, padrao_double) then
+      begin
+        writeln('Esse valor não é um número de ponto flutuante!');
+      end;
+    until TryStrToFloat(valor, padrao_double);
+
 
     produto := TProduto.Create;
 
-    produto.Codigo := codigo;
+    produto.Codigo := StrToInt(codigo);
     produto.Nome := nome;
-    produto.Valor := valor;
+    produto.Valor := StrToFloat(valor);
 
     FProdutos.add(produto);
+    writeln('Produto adicionado com sucesso!');
   end;
 
   procedure TMain.AdicionarVenda;
   var
     venda: TVenda;
     cliente: TCliente;
-    numero: integer;
+    padrao_int: integer;
+    padrao_data: TDateTime;
+    numero: string;
     data: string;
     rg: string;
   begin
@@ -136,10 +167,18 @@ implementation
         Exit;
       end;
 
-      writeln('Digite o número da Venda:');
-      readln(numero);
+      repeat
+        writeln('Digite o número da Venda:');
+        readln(numero);
 
-      venda := PesquisaVenda(numero);
+        if not TryStrToInt(numero, padrao_int) then
+        begin
+          writeln('Esse Número não é um número inteiro!');Write
+        end;
+      until TryStrToInt(numero, padrao_int);
+
+
+      venda := PesquisaVenda(StrToInt(numero));
 
       if venda <> nil then
       begin
@@ -147,13 +186,22 @@ implementation
         Exit();
       end;
 
-      writeln('Digite a data da Venda: (dd/mm/aaaa)');
-      readln(data);
+      repeat
+        writeln('Digite a data da Venda: (dd/mm/aaaa)');
+        readln(data);
 
-      venda := TVenda.Create(numero, StrToDateTime(data), cliente);
+        if TryStrToDateTime(data, padrao_data) then
+        begin
+          writeln('A data informada não está dentro do padrão dd/mm/aaaa');
+        end;
+      until TryStrToDateTime(data, padrao_data);
+
+
+      venda := TVenda.Create(StrToInt(numero), StrToDateTime(data), cliente);
 
       AdicionarItemVenda(venda);
       FVendas.Add(venda);
+      writeln('Venda adicionada com sucesso!');
     end
     else
     begin
@@ -192,10 +240,17 @@ implementation
     end;
 
     repeat
-      writeln('Deseja adicionar mais algum produto?');
-      writeln('1. Sim');
-      writeln('2. Não');
-      readln(mais_produto);
+      if venda.Itens.Count > 0 then
+      begin
+        writeln('Deseja adicionar mais algum produto?');
+        writeln('1. Sim');
+        writeln('2. Não');
+        readln(mais_produto);
+      end
+      else
+      begin
+        mais_produto := 1;
+      end;
 
       if mais_produto = 1 then
       begin
@@ -211,6 +266,7 @@ implementation
 
         item_venda := TItemVenda.Create(produto, quantidade);
         venda.AdicionarItem(item_venda);
+        writeln('Item adicionado com sucesso!');
       end;
 
       if (mais_produto = 2) and (venda.Itens.Count = 0) then
@@ -431,6 +487,7 @@ implementation
 
     RemoverItemVenda(venda);
     FVendas.Remove(venda);
+    writeln('A remoção foi realizada com sucesso!');
   end;
 
   procedure TMain.RemoverItemVenda(venda: TVenda);

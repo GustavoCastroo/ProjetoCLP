@@ -10,16 +10,16 @@ type
 
   private
     FNumero: integer;
-    FData: TDate;
+    FData: TDateTime;
     FCliente: TCliente;
-    VItens: TObjectList<TItemVenda>;
+    FItens: TObjectList<TItemVenda>;
 
   public
-    constructor Create(ANumero: Integer; AData: TDate; ACliente: TCliente);
+    constructor Create(numero: Integer; data: TDateTime; cliente: TCliente);
     property Numero: integer read FNumero write FNumero;
-    property Data: TDate read FData write FData;
+    property Data: TDateTime read FData write FData;
     property Cliente: TCliente read FCliente write FCliente;
-    property Itens: TObjectList<TItemVenda> read VItens write VItens;
+    property Itens: TObjectList<TItemVenda> read FItens write FItens;
     function Total: double; override;
     procedure AdicionarItem(AItem: TItemVenda);
     function Visualizar: string;
@@ -28,12 +28,12 @@ type
 
 implementation
 
-  constructor TVenda.Create(ANumero: Integer; AData: TDate; ACliente: TCliente);
+  constructor TVenda.Create(numero: Integer; data: TDateTime; cliente: TCliente);
   begin
-    FNumero := ANumero;
-    FData := AData;
-    FCliente := ACliente;
-    VItens := TObjectList<TItemVenda>.Create;
+    FNumero := numero;
+    FData := data;
+    FCliente := cliente;
+    FItens := TObjectList<TItemVenda>.Create;
   end;
 
   function TVenda.Total: double;
@@ -42,7 +42,7 @@ implementation
     soma: double;
   begin
     soma := 0.0;
-    for item in VItens do
+    for item in FItens do
     begin
       soma := soma + item.Total;
     end;
@@ -52,7 +52,7 @@ implementation
 
   procedure TVenda.AdicionarItem(AItem: TItemVenda);
   begin
-    VItens.Add(AItem);
+    FItens.Add(AItem);
   end;
 
   function TVenda.Visualizar(): string;
@@ -60,10 +60,10 @@ implementation
     str: String;
     item: TItemVenda;
   begin
-    str := Format('Número da venda: i, Data: %s , Cliente: %s, Itens: ', [FNumero, DateToStr(FData), FCliente.Nome]);
-    for item in VItens do
+    str := Format('Número da venda: %d, Data: %s , Cliente: %s, Valor: %f, Itens: ', [FNumero, DateTimeToStr(FData), FCliente.Nome, Total]);
+    for item in FItens do
     begin
-      str := str + item.Visualizar() + '\n';
+      str := str + sLineBreak + '   ' + item.Visualizar();
     end;
 
     Result := str;

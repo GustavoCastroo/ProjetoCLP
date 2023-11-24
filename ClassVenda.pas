@@ -60,7 +60,7 @@ implementation
     str: String;
     item: TItemVenda;
   begin
-    str := Format('Número da venda: %d, Data: %s , Cliente: %s, Valor: %f, Itens: ', [FNumero, DateTimeToStr(FData), FCliente.Nome, Total]);
+    str := Format('Número da venda: %d, Data: %s, Cliente: %s, Valor: R$%f, Itens: ', [FNumero, DateTimeToStr(FData), FCliente.Nome, Total]);
     for item in FItens do
     begin
       str := str + sLineBreak + '   ' + item.Visualizar();
