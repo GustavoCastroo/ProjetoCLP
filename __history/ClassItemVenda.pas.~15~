@@ -39,6 +39,6 @@ implementation
 
   function TItemVenda.Visualizar(): string;
   begin
-    Result := Format('Código do Produto: %d, Nome do Produto: %s, Valor do Produto: R$%f, Quantidade: %d', [FProduto.Codigo, FProduto.Nome, FValor, FQuantidade]);
+    Result := Format('Código do Produto: %d, Nome do Produto: %s, Valor do Produto: R$%f , Quantidade: %d', [FProduto.Codigo, FProduto.Nome, FValor, FQuantidade]);
   end;
 end.

@@ -15,6 +15,7 @@ type
 
   public
 
+  // getters e setters
   property Codigo: integer read FCodigo write FCodigo;
   property Nome: string read FNome write FNome;
   property Valor: double read FValor write FValor;

@@ -8,7 +8,7 @@ type
   private
 
   public
-    function Total: double;virtual; abstract;
+    function Total: double; virtual; abstract;
   end;
 
 implementation

@@ -36,6 +36,7 @@ implementation
     FItens := TObjectList<TItemVenda>.Create;
   end;
 
+  // Soma os valores dos itens e retorna o total
   function TVenda.Total: double;
   var
     item : TItemVenda;
